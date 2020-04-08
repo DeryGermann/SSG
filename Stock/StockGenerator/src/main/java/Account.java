@@ -116,7 +116,17 @@ public class Account {
     }
 
     private void decreaseBalance(StockItem stockItem) {
+        System.out.println("Before");
+        System.out.println(this.getBalance());
 
+        if (stockItem.getType() == "Buy") {
+            this.setBalance(this.balance - stockItem.getTotalAmount());
+        } else {
+            this.setBalance(this.balance + stockItem.getTotalAmount());
+        }
+
+        System.out.println("After");
+        System.out.println(this.getBalance());
     }
 
     @Override
