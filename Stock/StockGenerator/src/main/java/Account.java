@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Account {
     private Long accNum;
@@ -12,9 +13,9 @@ public class Account {
     private String email;
     private String phoneNumber;
     private Double balance;
-    private JSONArray stock;
+    private List<StockItem> stockItems;
 
-    public Account(Long accNum, String fName, String lName, String ssn, String email, String phoneNumber, Double balance,JSONArray stock) {
+    public Account(Long accNum, String fName, String lName, String ssn, String email, String phoneNumber, Double balance) {
         this.accNum = accNum;
         this.fName = fName;
         this.lName = lName;
@@ -22,7 +23,6 @@ public class Account {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
-        this.stock = stock;
     }
 
     public Long getAccNum() {
@@ -81,63 +81,23 @@ public class Account {
         this.balance = balance;
     }
 
-    public JSONArray getStock() {
-        return stock;
+    public List<StockItem> getStockItems() {
+        return stockItems;
     }
 
-    public void setStock(JSONArray stock) {
-        this.stock = stock;
-    }
-
-    public void parseStockArray(JSONArray stockInfo) {
-//        System.out.println(stockInfo);
-        stockInfo.forEach(stockItems -> printStockInfo( (JSONObject) stockItems ));
-    }
-
-    private void printStockInfo(JSONObject stockItems) {
-        String type = (String) stockItems.get("type");
-        System.out.println(type);
-
-        String stockSymbol = (String) stockItems.get("stock_symbol");
-        System.out.println(stockSymbol);
-
-        Long countShares = (Long) stockItems.get("count_shares");
-        System.out.println(countShares);
-
-        String pricePerShare = (String) stockItems.get("price_per_share");
-        Double price = Double.parseDouble(pricePerShare.replaceAll("[$]", ""));
-        System.out.println(price);
-
-        StockItem stockItem = new StockItem(type, stockSymbol, price, countShares.doubleValue());
-
-        System.out.println(stockItem.getTotalAmount());
-
-        decreaseBalance(stockItem);
-    }
-
-    private void decreaseBalance(StockItem stockItem) {
-        System.out.println("Before");
-        System.out.println(this.getBalance());
-
-        if (stockItem.getType() == "Buy") {
-            this.setBalance(this.balance - stockItem.getTotalAmount());
-        } else {
-            this.setBalance(this.balance + stockItem.getTotalAmount());
-        }
-
-        System.out.println("After");
-        System.out.println(this.getBalance());
+    public void setStockItems(List<StockItem> stockItems) {
+        this.stockItems = stockItems;
     }
 
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
 
-        return "Date: " + dtf.format(LocalDateTime.now()) + "\n" +
-                "Account Number: " + accNum + "\n" +
-                "Account Holder's Full Name: " + fName + " " + lName + "\n" +
-                "Social Security Number: " + ssn + "\n" +
-                "Email Address: " + email + "\n" +
-                "Phone Number: " + phoneNumber + "\n\n";
+        return "<p>Date: " + dtf.format(LocalDateTime.now()) + "</p>" +
+                "<p>Account Number: " + accNum + "</p>" +
+                "<p>Account Holder's Full Name: " + fName + " " + lName + "</p>" +
+                "<p>Social Security Number: " + ssn + "</p>" +
+                "<p>Email Address: " + email + "</p>" +
+                "<p>Phone Number: " + phoneNumber + "</p>";
     }
 }

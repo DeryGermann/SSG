@@ -10,7 +10,7 @@ public class StockItem {
         this.symbol = symbol;
         this.pricePerShare = pricePerShare;
         this.numOfShares = numOfShares;
-        this.totalAmount = totalAmount;
+        this.totalAmount = numOfShares * pricePerShare;
     }
 
     public String getType() {
@@ -46,6 +46,26 @@ public class StockItem {
     }
 
     public Double getTotalAmount() {
-        return numOfShares * pricePerShare;
+        return totalAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "<table>" +
+                "<tr>" +
+                    "<td><strong>Type</strong></td>"+
+                    "<td><strong>Stock Symbol</strong></td>"+
+                    "<td><strong>Price Per Share</strong></td>"+
+                    "<td><strong>Number of Shares Bought or Sold</strong></td>"+
+                    "<td><strong>Total Amount of the Transaction</strong></td>"+
+                "</tr>" +
+                "<tr>" +
+                    "<td>"+ type +"</td>"+
+                    "<td>"+ symbol +"</td>"+
+                    "<td>"+ pricePerShare +"</td>"+
+                    "<td>"+ numOfShares +"</td>"+
+                    "<td>"+ totalAmount +"</td>"+
+                "</tr>" +
+                "</table>";
     }
 }
