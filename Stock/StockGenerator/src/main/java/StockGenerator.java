@@ -1,3 +1,6 @@
+import com.openhtmltopdf.pdfboxout.PdfBoxRenderer;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,10 +19,10 @@ public class StockGenerator {
         // Read JSON data
         readJsonData();
 
-
         // HTML to PDF
-
+        iterateThroughHTMLFiles();
     }
+
 
     public static void readJsonData() {
         // JSON parser object to parse read file
@@ -124,6 +127,22 @@ public class StockGenerator {
         }
 
         return stockItem;
+    }
+
+    private static void iterateThroughHTMLFiles() {
+        File dir = new File("./outHTML/");
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File f : directoryListing) {
+                convertFromHTMLtoPDF(f);
+            }
+        } else {
+            System.out.println("Directory does not exist.");
+        }
+    }
+
+    private static void convertFromHTMLtoPDF(File f) {
+
     }
 
 //    public static void testPrint(JSONObject thing) {
